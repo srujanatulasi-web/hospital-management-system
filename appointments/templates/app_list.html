@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctors</title>
+    <title>Appointments</title>
     <style>
         * {
             margin: 0;
@@ -65,6 +65,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            
         }
 
         thead {
@@ -73,18 +74,20 @@
         }
 
         th {
-            padding: 15px;
-            text-align: left;
+            padding: 10px;
+            text-align: center;
             font-weight: 600;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            
         }
 
         td {
             padding: 15px;
             border-bottom: 1px solid #e0e0e0;
             color: #333;
+            text-align:center;
         }
 
         tbody tr {
@@ -96,8 +99,14 @@
         }
 
         .actions {
-            display: flex;
+            display:flex;
+            justify-content:center;
+            align-items:center;
             gap: 10px;
+        }
+
+        .actions a {
+            display: inline-block;
         }
 
         .edit-btn, .delete-btn {
@@ -142,33 +151,38 @@
 </head>
 <body>
     <div class="navbar">
-        <h1>👨‍⚕️ Doctors</h1>
+        <h1>👨Appointments</h1>
         <a href="/dashboard/" class="back-btn">← Back to Dashboard</a>
-        <a href="/doctors/create/" class="back-btn">+Create Doctor</a>
+        <a href="/appointments/create/" class="back-btn">+Create Appointment</a>
     </div>
 
     <div class="container">
-        {% if doctors %}
+        {% if appointments %}
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Specialization</th>
+                    <th>Doctor Name</th>
+                    <th>Patient Name</th>
+                    <th>Time</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for d in doctors %}
+                {% for a in appointments %}
                 <tr>
-                    <td>{{ d.id }}</td>
-                    <td>{{ d.name }}</td>
-                    <td>{{ d.specialization }}</td>
+                    <td>{{ a.id }}</td>
+                    <td>{{ a.doctor.name }}</td>
+                    <td>{{ a.patient.name }}</td>
+                    <td>{{ a.appointments_time }}</td>
+                    <td>{{ a.appointments_status }}</td>
+
                     <td>
-                        <div class="actions">
-                            <a href="/doctors/{{ d.id }}/edit/" class="edit-btn">Edit</a>
-                            <a href="/doctors/{{ d.id }}/delete/" class="delete-btn">Delete</a>
-                        </div>
+                         <div class="actions">
+                            <a href="/appointments/{{ a.id }}/edit/" class="edit-btn">Edit</a>
+                            <a href="/appointments/{{ a.id }}/delete/" class="delete-btn">Delete</a>
+                         </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -176,7 +190,7 @@
         </table>
         {% else %}
         <div class="no-data">
-            <p>No doctors found. Add your first doctor to get started.</p>
+            <p>No appointments found. Add your first appointment to get started.</p>
         </div>
         {% endif %}
     </div>

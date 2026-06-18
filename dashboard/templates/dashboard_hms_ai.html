@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMS AI - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@14/dist/markdown-it.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 15px 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar h1 {
+            color: white;
+            font-size: 28px;
+        }
+
+        .logout-btn {
+            padding: 8px 20px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff5252;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 40px 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #f77f00;
+        }
+
+        .card h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .answer-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .answer-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .answer-content {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .answer-content h1,
+        .answer-content h2,
+        .answer-content h3,
+        .answer-content h4,
+        .answer-content h5,
+        .answer-content h6 {
+            color: #333;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .answer-content h1 {
+            font-size: 24px;
+        }
+
+        .answer-content h2 {
+            font-size: 20px;
+        }
+
+        .answer-content h3 {
+            font-size: 18px;
+        }
+
+        .answer-content ul,
+        .answer-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .answer-content li {
+            margin-bottom: 8px;
+        }
+
+        .answer-content code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .answer-content pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+
+        .answer-content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        .answer-content blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+            margin-left: 0;
+            color: #666;
+            font-style: italic;
+        }
+
+        .answer-content a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .answer-content a:hover {
+            text-decoration: underline;
+        }
+
+        .answer-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .answer-content table th,
+        .answer-content table td {
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .answer-content table th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+        }
+
+        .empty-answer {
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>HMS AI Assistant</h1>
+        <a href="/logout/" class="logout-btn">Logout</a>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h1>Chat with HMS AI</h1>
+            <p class="card-subtitle">Ask any question about our Hospital Management System</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="query">Your Question</label>
+                    <textarea id="query" name="query" rows="5" placeholder="Enter your question about the HMS..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Get Answer</button>
+            </form>
+
+            {% if answer %}
+            <div class="answer-section">
+                <div class="answer-title">📌 Answer</div>
+                <div class="answer-content" id="answer-content"></div>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const md = window.markdownit();
+                    const answerText = `{{ answer|escapejs }}`;
+                    const htmlContent = md.render(answerText);
+                    document.getElementById('answer-content').innerHTML = htmlContent;
+                });
+            </script>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

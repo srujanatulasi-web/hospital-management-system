@@ -1,6 +1,47 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from google import genai
+from django.conf import settings
+from doctors.models import Doctor
+from patients.models import Patient
 # Create your views here.
 @login_required
 def dashboard_home(request):
     return render(request, "dashboard_home.html")
+
+@login_required
+def dashboard_hms_ai(request):
+    if request.method == 'POST':
+        user_query = request.POST.get('query')
+        client = genai.Client(api_key=settings.GEMINI_API_KEY)
+        doctors = Doctor.objects.all()
+        patients = Patient.objects.all()
+
+        doctors = list(doctors.values())
+        patients = list(patients.values())
+
+        final_query = f'''
+            You are the AI chatbot inside a website called medhaHMS
+            You responsibility is to answer questions about
+            medhaHMS data. Anything part from this, you are not allowed to 
+            answer. Below is the doctor data you need to know.
+            {doctors} and below are patients {patients}
+
+            Answer below:
+            {user_query}
+            '''
+        response = client.models.generate_content(
+            model="gemini-3-flash-preview",
+            contents=final_query,
+        )
+        answer = response.text
+
+       # answer = "great question, let me come back"
+        
+        return render(request, "dashboard_hms_ai.html",{
+            'answer': answer
+       })
+    return render(request, "dashboard_hms_ai.html")
+
+
+#AQ.Ab8RN6JuaY3gapytad3oZhxfRBnmSeGZqpGxm8ut5GkdgVK38g
