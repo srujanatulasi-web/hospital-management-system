@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django .contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 import doctors
 from doctors.models import Doctor
@@ -75,3 +76,4 @@ def appointments_delete(request ,pk):
     appointment =get_object_or_404(Appointments, pk=pk)
     appointment.delete()
     return redirect('/appointments')
+
