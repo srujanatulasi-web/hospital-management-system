@@ -60,7 +60,7 @@ MIDDLEWARE = [
 ]
 
 CSRF_TRUSTED_ORIGINS =[
-    "https://hospital-management-system-29mu.onrender.com/"
+    "https://hospital-management-system-29mu.onrender.com"
 ]
 
 ROOT_URLCONF = 'medhams.urls'
