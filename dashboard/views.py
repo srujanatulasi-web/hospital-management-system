@@ -46,4 +46,3 @@ def dashboard_hms_ai(request):
     return render(request, "dashboard_hms_ai.html")
 
 
-#AQ.Ab8RN6JuaY3gapytad3oZhxfRBnmSeGZqpGxm8ut5GkdgVK38g
